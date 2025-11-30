@@ -32,6 +32,7 @@ function main()
         exit(1)
     end
 
+    t0_overall = time()
     infile = ARGS[1]
     println("Reading matrix from $infile ...")
 
@@ -49,9 +50,11 @@ function main()
     println("time (s)    = $(t1 - t0)")
 
     # Optional: print gigantic number (slower but still cheap)
-    println("\napprox")
-    @printf("determinant = %.15e\n", pretty_det(logabs, sign))
+
+    @printf("\napprox determinant = %.15e\n", pretty_det(logabs, sign))
     #println("determinant = ", pretty_det(logabs, sign))
+    t1_overall = time()
+    println("overall (s) = $(t1_overall-t0_overall)")
 end
 
 main()

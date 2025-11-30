@@ -52,6 +52,7 @@ def main():
         print("Usage: det_matrix_big.py <matrixfile.csv>")
         sys.exit(1)
 
+    t0_overall = time.time()
     infile = Path(sys.argv[1])
 
     print(f"Reading matrix from {infile} ...")
@@ -75,9 +76,10 @@ def main():
     print("time (s)    =", t1 - t0)
 
     # Optional: print gigantic approximate determinant
-    print("\napprox")
-    print("determinant = ", f"{pretty_det(logabs, sign):.15e}")
+    print("\napprox determinant = ", f"{pretty_det(logabs, sign):16.15e}")
 
+    t1_overall = time.time()
+    print("overall (s) = ",t1_overall-t0_overall)
 
 if __name__ == "__main__":
     main()

@@ -1,84 +1,55 @@
- >: ./det-matrix.wls matrix-1000.dat 
-Reading matrix from matrix-1000.dat ...
-Matrix size: 1000 x 1000
-determinant = 4.356473694512643e745
-time (s)    = 0.012715
- 
- >: ./det-matrix-big.jl matrix-1000.dat 
-Reading matrix from matrix-1000.dat ...
-Matrix size: 1000 x 1000
+# Code for my piece on the comparison of the performance of five implementations of the determinant of a matrix
 
-Sign(det)   = 1.0
-log|det|    = 1716.8975572250195
-time (s)    = 0.10451102256774902
+This repository contains the source code for my piece on [Re-learning something about scientific computing](https://moldrup-dalum.dk/per/output/2025-11-30--1000x1000.html) on the comparison of the performance of five implementations of the calculation of the determinant of a matrix, a.k.a. just having some fun...
 
-approx
-determinant = 4.356473694513937e+745
+## Installation
 
- >: ./det-matrix-big.py matrix-1000.dat
-Reading matrix from matrix-1000.dat ...
-Matrix size: 1000 x 1000
+The scripts utilize the following programs:
 
-Sign(det)   = 1.0
-log|det|    = 1716.8975572250201
-time (s)    = 0.012414932250976562
+- `wolframscript`. If you don\'t have a license for Wolfram products, just install the free [Wolfram Engine](https://www.wolfram.com/engine/)
 
-approx
-determinant =  4.356473694516749e+745
+- [Julia](https://julialang.org/) with the `LinearAlgebra`, `DelimitedFiles`, and `Printf` packages
 
+- [Python](https://www.python.org/) with the `sys`, `time`, `numpy`, `pathlib`, and `decimal` package
 
+- JavaScript engine, e.g., [node.js](https://nodejs.org/) with the `nlapack` and `decimal.js` npm packages.
 
-needed to make an ascii-barchart plotter 😃
+- Fortran compiler, e.g., [gfortran](https://gcc.gnu.org/fortran/). This one also relies on the `lapack` package.
 
-Time in microseconds
+To use the JavaScript package `nlapack`, you need the `lapack` system library, and to compile the FORTRAN program, you in addition need the `blas` library. Om macOS, that can be installed by Homebrew:
 
-Python wins when N=400 
-   >: ./det-all-time.sh matrix-400.dat|awk '{ printf "%s %.0f\n", $1, $2 * 1000000 }'               
-wsl 3545
-julia 96684
-python 2517
+    brew install lapack blas
 
-Mathematica wins when N=1000
- >: ./det-all-time.sh matrix-1000.dat|awk '{ printf "%s %.0f\n", $1, $2 * 1000000 }'
-wsl 9359
-julia 99538
-python 12097
-  
- >: ./det-all-time.sh matrix-2000.dat|awk '{ printf "%s %.0f\n", $1, $2 * 1000000 }'
-wsl 59247
-julia 139426
-python 53119
+## Usage
 
- >: ./det-all-time.sh matrix-4000.dat|awk '{ printf "%s %.0f\n", $1, $2 * 1000000 }'
-wsl 347414
-julia 411583
-python 308063
- > 
->  >: ./det-all-time.sh matrix-10000.dat|awk '{ printf "%s %.0f\n", $1, $2 * 1000000 }'
-wsl 4671693
-julia 4209705
-python 3605816
+## Comparisons
 
- >: ./det-all-time.sh matrix-400.dat|awk '{ printf "%s %.0f\n", $1, $2 * 100000 }'|ascii-barchart 
-wsl    #
-julia  ##################################################
-python ##
+The `det-all.sh` script runs all the comparison scripts and produce this output
 
+    Compare the result of log|det|
+    wsl	       1716.8975572250192
+    julia	     1716.8975572250195
+    python	     1716.8975572250201
+    javascript	 1716.8975572250201
+    fortran	     1716.8975572250192
 
-Here are the differences on the femto scale between the calculations by the three implementations. Mathematica and Julia are a bit closer than Python/NumPy. Why?
+    Compare the calculation time for log|det|
+    wsl	        0.015226
+    julia	    0.22920989990234375
+    python	    0.016331911087036133
+    javascript	0.19198841600000002
+    fortran	    0.009711
 
- >: ./det-all.sh matrix-1000.dat|./calc-diff.sh|ascii-barchart
-wsl    ####################
-julia  #############################
-python ##################################################
- 
+    Compare the result of approximating the determinant
+    wsl	         4.356473694513e745
+    julia	     4.356473694513937e+745
+    python	     4.356473694516749e+745
+    javascript	 4.356473694516749e+745
+    fortran	     Infinity
 
-## Today I learned
-
-- bc FTW
-- zsh while loop
- 
-## Future Work
-
-- Go spelunking in the source code of Julia and NumPy to learn about how this is done.
-- Try do see how deep one could get in Mathematica
+    Compare the overall run time minus start-up time
+    wsl	        2.887176`6.912018248209303
+    julia	    0.9917140007019043
+    python	    0.3019130229949951
+    javascript	0.413815292
+    fortran	    0.804573

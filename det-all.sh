@@ -2,6 +2,17 @@
 
 INPUT=$1
 
-echo -n "wsl\t"; ./det-matrix.wls $INPUT | grep determinant | sed 's/determinant =//'
-echo -n "julia\t"; ./det-matrix-big.jl $INPUT | grep determinant | sed 's/determinant =//;s/\+//'
-echo -n "python\t"; ./det-matrix-big.py $INPUT | grep determinant | sed 's/determinant =//;s/\+//'
+echo "Compare the result of log|det|"
+./det-all-logdet.sh $1
+
+echo ""
+echo "Compare the calculation time for log|det|"
+./det-all-time.sh $1
+
+echo ""
+echo "Compare the result of approximating the determinant"
+./det-all-approx.sh $1
+
+echo ""
+echo "Compare the overall run time minus start-up time"
+./det-all-overall.sh $1

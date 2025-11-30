@@ -155,7 +155,7 @@ function main() {
   let n;
   let lda;
 
-  const t0_read = performance.now();
+  const t0_overall = performance.now();
   try {
     const res = readMatrix(infile);
     Apacked = res.A;
@@ -165,7 +165,6 @@ function main() {
     console.error(String(err.message || err));
     process.exit(1);
   }
-  const t1_read = performance.now();
 
   console.log(`Matrix size: ${n} x ${n}`);
 
@@ -184,19 +183,23 @@ function main() {
   const t1_det = performance.now();
 
   console.log('\nSign(det)   =', sign);
-  console.log('log|det|    =', logabs);
+  console.log('log|det|      =', logabs);
+  console.log('time (s)      =', (t1_det - t0_det) / 1000);
 
-  console.log('\napprox');
   const t0_pretty_det = performance.now();
   const detApprox = prettyDet(logabs, sign, 100);
   const t1_pretty_det = performance.now();
 
   // Format as scientific notation with 15 digits after the decimal,
   // similar to Python's "{:.15e}".
-  console.log('determinant =', detApprox.toExponential(15));
+  console.log('\napprox determinant =', detApprox.toExponential(15));
+  /*
   console.log('I/O (s):    ', (t1_read - t0_read) / 1000);
   console.log('LAPACK (s): ', (t1_det - t0_det) / 1000);
   console.log('Big exp (s):', (t1_pretty_det - t0_pretty_det) / 1000);
+  */
+    const t1_overall = performance.now();
+    console.log('overall (s) = ', (t1_overall - t0_overall) / 1000);
 }
 
 if (require.main === module) {
