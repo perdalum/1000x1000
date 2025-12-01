@@ -1,4 +1,4 @@
-# Code for my piece on the comparison of the performance of five implementations of the determinant of a matrix
+# Code for my piece on the comparison of the performance of five implementations of the calculation of the determinant of a matrix
 
 This repository contains the source code for my piece on [Re-learning something about scientific computing](https://moldrup-dalum.dk/per/output/2025-11-30--1000x1000.html) on the comparison of the performance of five implementations of the calculation of the determinant of a matrix, a.k.a. just having some fun…
 
