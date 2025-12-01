@@ -22,6 +22,15 @@ To use the JavaScript package `nlapack`, you need the `lapack` system library, a
 
 ## Usage
 
+To generate matrices of any size, use either the Wolfram script or the JavaScript
+
+    > ./make-matrix 1000 1000.dat
+    > ./make_random_matrix 1000 > 1000.dat
+
+Then use of of the scripts to run the computation in FORTRAN, JavaScript, Python or Julia
+
+    ./det-matrix-big.wls 1000.dat
+
 ## Comparisons
 
 The `det-all.sh` script runs all the comparison scripts and produce this output
