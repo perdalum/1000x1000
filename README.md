@@ -1,12 +1,12 @@
 # Code for my piece on the comparison of the performance of five implementations of the determinant of a matrix
 
-This repository contains the source code for my piece on [Re-learning something about scientific computing](https://moldrup-dalum.dk/per/output/2025-11-30--1000x1000.html) on the comparison of the performance of five implementations of the calculation of the determinant of a matrix, a.k.a. just having some fun...
+This repository contains the source code for my piece on [Re-learning something about scientific computing](https://moldrup-dalum.dk/per/output/2025-11-30--1000x1000.html) on the comparison of the performance of five implementations of the calculation of the determinant of a matrix, a.k.a. just having some fun…
 
 ## Installation
 
 The scripts utilize the following programs:
 
-- `wolframscript`. If you don\'t have a license for Wolfram products, just install the free [Wolfram Engine](https://www.wolfram.com/engine/)
+- `wolframscript`. If you don't have a license for Wolfram products, just install the free [Wolfram Engine](https://www.wolfram.com/engine/)
 
 - [Julia](https://julialang.org/) with the `LinearAlgebra`, `DelimitedFiles`, and `Printf` packages
 
@@ -18,7 +18,7 @@ The scripts utilize the following programs:
 
 To use the JavaScript package `nlapack`, you need the `lapack` system library, and to compile the FORTRAN program, you in addition need the `blas` library. Om macOS, that can be installed by Homebrew:
 
-    brew install lapack blas
+    brew install gfortran lapack blas
 
 ## Usage
 
@@ -27,29 +27,33 @@ To use the JavaScript package `nlapack`, you need the `lapack` system library, a
 The `det-all.sh` script runs all the comparison scripts and produce this output
 
     Compare the result of log|det|
-    wsl	       1716.8975572250192
-    julia	     1716.8975572250195
-    python	     1716.8975572250201
-    javascript	 1716.8975572250201
-    fortran	     1716.8975572250192
+    wsl         1716.8975572250192
+    julia       1716.8975572250195
+    python      1716.8975572250201
+    javascript  1716.8975572250201
+    fortran     1716.8975572250192
 
     Compare the calculation time for log|det|
-    wsl	        0.015226
-    julia	    0.22920989990234375
-    python	    0.016331911087036133
-    javascript	0.19198841600000002
-    fortran	    0.009711
+    wsl         0.015226
+    julia       0.22920989990234375
+    python      0.016331911087036133
+    javascript  0.19198841600000002
+    fortran     0.009711
 
     Compare the result of approximating the determinant
-    wsl	         4.356473694513e745
-    julia	     4.356473694513937e+745
-    python	     4.356473694516749e+745
-    javascript	 4.356473694516749e+745
-    fortran	     Infinity
+    wsl         4.356473694513e745
+    julia       4.356473694513937e+745
+    python      4.356473694516749e+745
+    javascript  4.356473694516749e+745
+    fortran     Infinity
 
     Compare the overall run time minus start-up time
-    wsl	        2.887176`6.912018248209303
-    julia	    0.9917140007019043
-    python	    0.3019130229949951
-    javascript	0.413815292
-    fortran	    0.804573
+    wsl         2.887176`6.912018248209303
+    julia       0.9917140007019043
+    python      0.3019130229949951
+    javascript  0.413815292
+    fortran     0.804573
+
+## Images
+
+<img src="./media/image1.tiff" style="width:3.47222in;height:3.47222in" alt="Et billede, der indeholder diagram, linje/række, Kurve AI-genereret indhold kan være ukorrekt." />
