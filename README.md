@@ -53,7 +53,3 @@ The `det-all.sh` script runs all the comparison scripts and produce this output
     python      0.3019130229949951
     javascript  0.413815292
     fortran     0.804573
-
-## Images
-
-<img src="./media/image1.tiff" style="width:3.47222in;height:3.47222in" alt="Et billede, der indeholder diagram, linje/række, Kurve AI-genereret indhold kan være ukorrekt." />

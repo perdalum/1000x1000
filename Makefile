@@ -24,7 +24,6 @@ $(FORTRAN_TARGET): $(FORTRAN_SOURCES)
 $(README_MD): $(README_DOCX)
 	pandoc -f docx -t gfm --extract-media=. --wrap=none $(README_DOCX) -o $(README_MD)
 	@if [ -d "$(SCRIPTS_DIR)" ] && [ -f "$(SCRIPTS_DIR)/pandoc-tiff-to-png.sh" ]; then \
-		chmod +x $(SCRIPTS_DIR)/pandoc-tiff-to-png.sh; \
 		$(SCRIPTS_DIR)/pandoc-tiff-to-png.sh $(README_MD) ./media; \
 	else \
 		echo "Warning: Image conversion script not found"; \
@@ -33,8 +32,8 @@ $(README_MD): $(README_DOCX)
 # Clean build artifacts
 .PHONY: clean
 clean:
-	rm -f $(FORTRAN_TARGET) $(README_MD)
-	find . -maxdepth 1 \( -name "*.png" -o -name "*.tiff" -o -name "*.tif" \) -type f -delete
+	rm -f $(FORTRAN_TARGET) $(README_MD) .media/*
+	rmdir media
 
 # Clean everything including object files
 .PHONY: distclean
