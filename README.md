@@ -16,7 +16,9 @@ The scripts utilize the following programs:
 
 - Fortran compiler, e.g., [gfortran](https://gcc.gnu.org/fortran/). This one also relies on the `lapack` package.
 
-To use the JavaScript package `nlapack`, you need the `lapack` system library, and to compile the FORTRAN program, you in addition need the `blas` library. Om macOS, that can be installed by Homebrew:
+- C compiler, fx clang on macOS. This one also relies on the `lapack` package.
+
+To use the JavaScript package `nlapack`, you need the `lapack` system library, and to compile the FORTRAN and C programs, you in addition need the `blas` library. Om macOS, that can be installed by Homebrew:
 
     brew install gfortran lapack blas
 
@@ -27,7 +29,7 @@ To generate matrices of any size, use either the Wolfram script or the JavaScrip
     > ./make-matrix.wls 1000 1000.dat
     > ./make_random_matrix.js 1000 > 1000.dat
 
-Then use of of the scripts to run the computation in FORTRAN, JavaScript, Python or Julia
+Then use the scripts to run the computation in C, FORTRAN, JavaScript, Python or Julia
 
     ./det-matrix-big.wls 1000.dat
 
@@ -62,3 +64,38 @@ The `det-all.sh` script runs all the comparison scripts and produce this output
     python      0.3019130229949951
     javascript  0.413815292
     fortran     0.804573
+
+### MacBook Pro M1 Max, 32GB RAM, 2025-12-28
+
+    >: ./det-all.sh matrix-1000.dat       
+    Compare the result of log|det|
+    wsl	 1716.8975572250192
+    julia	 1716.8975572250183
+    python	 1716.8975572250201
+    javascript	 1716.8975572250201
+    fortran	 1716.8975572250192
+    C	 1716.8975572250192
+
+    Compare the calculation time for log|det|
+    wsl	0.009941
+    julia	0.14061784744262695
+    python	0.016119003295898438
+    javascript	0.154275416
+    fortran	0.020821
+    C	0.018572
+
+    Compare the result of approximating the determinant
+    wsl	 4.356473694513e745
+    julia	 4.356473694508985e+745
+    python	 4.356473694516749e+745
+    javascript	 4.356473694516749e+745
+    fortran	 4.356473694512254e+745
+    C	 4.356473694512254e+745
+
+    Compare the overall run time minus start-up time
+    wsl	2.355909`6.823703494390263
+    julia	0.7916049957275391
+    python	0.2501208782196045
+    javascript	0.27083329100000003
+    fortran	0.670018
+    C	0.091895

@@ -1,0 +1,4 @@
+# Ideas and tasks
+
+* shift from node.js to bun in the Javascript implementation.
+* add a C solution

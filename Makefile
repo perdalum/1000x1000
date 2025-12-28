@@ -1,26 +1,40 @@
 # Makefile for matrix determinant project
 
-# Compiler settings
+# ---------- Compilers ----------
 FC = gfortran
-FFLAGS = -o
-LIBS = -llapack -lblas
+CC = clang
 
-# Files
+# ---------- Flags ----------
+FFLAGS = -o
+CFLAGS = -std=c89 -O2
+LIBS = -llapack -lblas
+# For Accelerate instead, use:
+# LIBS = -framework Accelerate
+
+# ---------- Files ----------
 FORTRAN_SOURCES = det-matrix-big.f
-FORTRAN_TARGET = det-matrix-big
+FORTRAN_TARGET  = det-matrix-big-f
+
+C_SOURCES = det-matrix-big.c
+C_TARGET  = det-matrix-big-c
+
 README_DOCX = README.docx
-README_MD = README.md
+README_MD   = README.md
 SCRIPTS_DIR = src
 
-# Default target
+# ---------- Default target ----------
 .PHONY: all
-all: $(FORTRAN_TARGET) $(README_MD)
+all: $(FORTRAN_TARGET) $(C_TARGET) $(README_MD)
 
-# Compile FORTRAN program
+# ---------- Compile FORTRAN program ----------
 $(FORTRAN_TARGET): $(FORTRAN_SOURCES)
 	$(FC) $(FFLAGS) $@ $< $(LIBS)
 
-# Convert README.docx to Markdown
+# ---------- Compile C program ----------
+$(C_TARGET): $(C_SOURCES)
+	$(CC) $(CFLAGS) -o $@ $< $(LIBS) -lm
+
+# ---------- Convert README.docx to Markdown ----------
 $(README_MD): $(README_DOCX)
 	pandoc -f docx -t gfm --extract-media=. --wrap=none $(README_DOCX) -o $(README_MD)
 	@if [ -d "$(SCRIPTS_DIR)" ] && [ -f "$(SCRIPTS_DIR)/pandoc-tiff-to-png.sh" ]; then \
@@ -29,21 +43,21 @@ $(README_MD): $(README_DOCX)
 		echo "Warning: Image conversion script not found"; \
 	fi
 
-# Clean build artifacts
+# ---------- Clean ----------
 .PHONY: clean
 clean:
-	rm -f $(FORTRAN_TARGET) $(README_MD) .media/*
-	rmdir media
+	rm -f $(FORTRAN_TARGET) $(C_TARGET) $(README_MD)
+	rm -rf media
 
-# Clean everything including object files
+# ---------- Distclean ----------
 .PHONY: distclean
 distclean: clean
 
-# Help target
+# ---------- Help ----------
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "  all       - Compile FORTRAN program and convert README.docx to Markdown"
-	@echo "  clean     - Remove compiled binary, generated Markdown, and extracted images"
-	@echo "  distclean - Clean everything"
+	@echo "  all       - Build FORTRAN and C versions, generate README.md"
+	@echo "  clean     - Remove binaries and generated files"
+	@echo "  distclean - Same as clean"
 	@echo "  help      - Show this help message"
