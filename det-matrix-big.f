@@ -52,11 +52,10 @@ C      WRITE(*,'(A,E25.15)') 'log|det|    = ', LOGABS
       WRITE(*,'(A,F18.13)') 'log|det|    = ', LOGABS
       WRITE(*,'(A,F8.6)') 'time (s)    = ', T1-T0
 
-C     Print approximate determinant
+C     Print approximate determinant (overflow-safe scientific)
       WRITE(*,*)
-      DET = SIGN * EXP(LOGABS)
-      WRITE(*,'(A,E25.15)') 'approx determinant = ', DET
-
+      CALL PRINT_PRETTY_DET(LOGABS, SIGN)
+      
       CALL CPU_TIME(T1_overall)
       WRITE(*, '(A,F12.6)') 'overall (s) = ',T1_overall-T0_overall
       END PROGRAM DETMATBIG
@@ -200,6 +199,48 @@ C     Each swap changes sign
       IF (MOD(NSWAPS, 2) .EQ. 1) THEN
          SIGN = -SIGN
       ENDIF
+
+      RETURN
+      END
+
+C=======================================================================
+C  Print sign * exp(logabs) in scientific notation without overflow
+C  det = sign * mant * 10^e, with mant in [1,10)
+C=======================================================================
+      SUBROUTINE PRINT_PRETTY_DET(LOGABS, SIGN)
+      IMPLICIT NONE
+      DOUBLE PRECISION LOGABS, SIGN
+      DOUBLE PRECISION LN10, INVLN10, LOG10ABS
+      DOUBLE PRECISION E, F, MANT
+
+      LN10 = LOG(10.0D0)
+
+C     Handle singular / invalid
+      IF (SIGN .EQ. 0.0D0) THEN
+         WRITE(*,'(A)') 'approx determinant = 0.000000000000000e+00'
+         RETURN
+      ENDIF
+      IF (LOGABS .LT. -1.0D200) THEN
+         WRITE(*,'(A)') 'approx determinant = 0.000000000000000e+00'
+         RETURN
+      ENDIF
+
+      INVLN10 = 1.0D0 / LN10
+      LOG10ABS = LOGABS * INVLN10
+
+C     e = floor(log10abs) for double precision
+      E = AINT(LOG10ABS)
+      IF (LOG10ABS .LT. 0.0D0 .AND. LOG10ABS .NE. E) THEN
+         E = E - 1.0D0
+      ENDIF
+      F = LOG10ABS - E
+
+      MANT = 10.0D0 ** F
+      IF (SIGN .LT. 0.0D0) MANT = -MANT
+
+C     Print like: mantissa with 15 digits, exponent as integer
+      WRITE(*,100) MANT, INT(E)
+  100 FORMAT('approx determinant = ',F20.15,'e',SP,I12)
 
       RETURN
       END
