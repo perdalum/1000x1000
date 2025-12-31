@@ -99,3 +99,62 @@ The `det-all.sh` script runs all the comparison scripts and produce this output
     javascript	0.27083329100000003
     fortran	0.670018
     C	0.091895
+
+### MacBook Air M2 24GM RAM
+
+    >: ./det-all.sh matrix-1000.dat 
+    Compare the result of log|det|
+    wsl	 1716.8975572250192
+    julia	 1716.8975572250195
+    python	 1716.8975572250201
+    javascript	 1716.8975572250201
+    fortran	 1716.8975572250192
+    C	 1716.8975572250192
+
+    Compare the calculation time for log|det|
+    wsl	0.01863
+    julia	0.11770105361938477
+    python	0.01692986488342285
+    javascript	0.12116041699999999
+    fortran	0.006983
+    C	0.005541
+
+    Compare the result of approximating the determinant
+    wsl	 4.356473694513e745
+    julia	 4.356473694513937e+745
+    python	  4.356473694516749e+745
+    javascript	 4.356473694516749e+745
+    fortran	    4.356473694512254e        +745
+    C	 4.356473694512254e+745
+
+    Compare the overall run time minus start-up time
+    wsl	2.145193`6.783011356728961
+    julia	0.6132011413574219
+    python	0.1892998218536377
+    javascript	0.267054083
+    fortran	0.499685
+    C	0.061571
+
+### Compare
+
+Compare the calculation time for log\|det\|
+
+|            | **MacBook Pro**      | **MacBook Air**     |
+|------------|----------------------|---------------------|
+| wsl        | 0.009941             | 0.01863             |
+| julia      | 0.14061784744262695  | 0.11770105361938477 |
+| python     | 0.016119003295898438 | 0.01692986488342285 |
+| javascript | 0.154275416          | 0.12116041699999999 |
+| fortran    | 0.020821             | 0.006983            |
+| C          | 0.018572             | 0.005541            |
+
+Compare the overall run time minus start-up time
+
+|            | **MacBook Pro**     | **MacBook Air**    |
+|------------|---------------------|--------------------|
+| wsl        | 2.355909            | 2.145193           |
+| julia      | 0.7916049957275391  | 0.6132011413574219 |
+| python     | 0.2501208782196045  | 0.1892998218536377 |
+| javascript | 0.27083329100000003 | 0.267054083        |
+| fortran    | 0.670018            | 0.499685           |
+| C          | 0.091895            | 0.061571           |

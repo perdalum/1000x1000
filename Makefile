@@ -18,6 +18,9 @@ FORTRAN_TARGET  = det-matrix-big-f
 C_SOURCES = det-matrix-big.c
 C_TARGET  = det-matrix-big-c
 
+HARDENED_C_SOURCES = det-matrix-big-hardened.c
+HARDENED_C_TARGET  = det-matrix-big-hardened
+
 README_DOCX = README.docx
 README_MD   = README.md
 SCRIPTS_DIR = src
@@ -32,6 +35,10 @@ $(FORTRAN_TARGET): $(FORTRAN_SOURCES)
 
 # ---------- Compile C program ----------
 $(C_TARGET): $(C_SOURCES)
+	$(CC) $(CFLAGS) -o $@ $< $(LIBS) -lm
+
+# ---------- Compile hardened C program ----------
+$(HARDENED_C_TARGET): $(HARDENED_C_SOURCES)
 	$(CC) $(CFLAGS) -o $@ $< $(LIBS) -lm
 
 # ---------- Convert README.docx to Markdown ----------
